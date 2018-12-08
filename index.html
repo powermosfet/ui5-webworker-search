@@ -31,7 +31,7 @@
       let mainModel = new sap.ui.model.json.JSONModel("data.json");
 
       l.setModel(mainModel);
-      l.bindItems("/", new sap.ui.core.Item({ key: "{key}", text: "{text}" }));
+      l.bindItems("/", new sap.m.StandardListItem({ title: "{key}", description: "{text}" }));
     });
 
     function setupStd(list, mainModel, searchField) {
