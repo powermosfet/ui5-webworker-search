@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+  <title>WebWorker test</title>
+</head>
+
+<body>
+  <script src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" ></script>
+  <script>
+    let v = new sap.m.VBox({ width: "15rem" });
+    let sf = new sap.m.SearchField();
+    v.addItem(sf);
+    let l = new sap.m.List();
+    v.addItem(l);
+    // var counter = 0;
+    
+    // var worker = new Worker('worker.js');
+    // worker.onmessage = function(msg) {
+    //   counter--;
+    //   console.log("Main thread received message: " + msg + ", Counter is now " + counter);
+    //   updateCounter();
+    // }
+    
+    // function addMessage() {
+    //   counter++;
+    //   console.log("posting a message from the main thread. Counter is " + counter);
+    //   worker.postMessage(counter);
+    //   updateCounter();
+    // }
+    
+    // function updateCounter() {
+    //   var span = document.getElementById("counter");
+    //   span.innerHTML = counter;
+    // }
+  </script>
+  
+  <h1>WebWorker</h1>
+  <p>
+    <button onClick="addMessage()">Post message</button>
+    <p>Your worker has <span id="counter">0</span> messages in the queue</p>
+  </p>
+</body>
+
+</html> 
