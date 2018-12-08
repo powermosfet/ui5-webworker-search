@@ -13,7 +13,7 @@
     var worker;
 
     sap.ui.getCore().attachInit(function() {
-      let v = new sap.m.VBox({ width: "25rem" });
+      let v = new sap.m.VBox();
       let rg = new sap.m.RadioButtonGroup();
       let std = new sap.m.RadioButton({ id: "std", text: "Normal binding" });
       rg.addButton(std);
@@ -34,6 +34,8 @@
       setupStd(l, mainModel, sf);
       l.bindItems("/", new sap.m.StandardListItem({ title: "{key}", description: "{text}" }));
       rg.attachSelect(function() {
+        bi.setVisible(false);
+        sf.setValue("");
         if(std.getSelected()) {
           setupStd(l, mainModel, sf);
         } else if(wrk.getSelected()) {
