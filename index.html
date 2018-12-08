@@ -78,10 +78,10 @@
       searchField.attachLiveChange(function() {
         let query = searchField.getValue();
         if(query.length === 0) {
-          bi.setVisible(false);
+          busyIndicator.setVisible(false);
           list.getModel().setData(mainModel.getData());
         } else {
-          bi.setVisible(true);
+          busyIndicator.setVisible(true);
           worker.postMessage(
             {
               topic: "search",
@@ -103,7 +103,7 @@
             break;
 
           case "done":
-            bi.setVisible(false);
+            busyIndicator.setVisible(false);
             break;
         }
       };
