@@ -13,13 +13,13 @@
     var worker;
 
     sap.ui.getCore().attachInit(function() {
+      let v = new sap.m.VBox({ width: "25rem" });
       let rg = new sap.m.RadioButtonGroup();
       let std = new sap.m.RadioButton({ id: "std", text: "Normal binding" });
       rg.addButton(std);
       let wrk = new sap.m.RadioButton({ id: "wrk", text: "Web worker" });
       rg.addButton(wrk);
       v.addItem(rg);
-      let v = new sap.m.VBox({ width: "25rem" });
       let sf = new sap.m.SearchField();
       v.addItem(sf);
       let bi = new sap.m.BusyIndicator({ visible: false });
