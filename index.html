@@ -17,6 +17,8 @@
       let v = new sap.m.VBox({ width: "25rem" });
       let sf = new sap.m.SearchField();
       v.addItem(sf);
+      let bi = new sap.m.BusyIndicator({ visible: false });
+      v.addItem(bi);
       let l = new sap.m.List();
       v.addItem(l);
       h.addItem(v);
@@ -38,7 +40,7 @@
         if(std.getSelected()) {
           setupStd(l, mainModel, sf);
         } else if(wrk.getSelected()) {
-          setupWrk(l, mainModel, sf);
+          setupWrk(l, mainModel, sf, bi);
         }
       });
     });
@@ -56,7 +58,7 @@
      });
     }
 
-    function setupWrk(list, mainModel, searchField) {
+    function setupWrk(list, mainModel, searchField, busyIndicator) {
       if(worker) {
         worker.terminate();
         worker = null;
@@ -74,6 +76,7 @@
       )
 
       searchField.attachLiveChange(function() {
+        bi.setVisible(true);
         worker.postMessage(
           {
             topic: "search",
@@ -88,8 +91,13 @@
           case "clear":
             list.getModel().setData([]);
             break;
+
           case "newResult":
             list.getModel().setData(list.getModel().getData().concat(msg.result));
+            break;
+
+          case "done":
+            bi.setVisible(false);
             break;
         }
       };

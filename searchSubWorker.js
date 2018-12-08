@@ -14,5 +14,6 @@ onmessage = function(e) {
           });
         }
       });
+      postMessage({ topic: "done" });
   }
 };
