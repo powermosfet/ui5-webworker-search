@@ -30,7 +30,7 @@
 
       let mainModel = new sap.ui.model.json.JSONModel("data.json");
 
-      l.setModel(mainModel);
+      setupStd(l, mainModel, sf);
       l.bindItems("/", new sap.m.StandardListItem({ title: "{key}", description: "{text}" }));
     });
 
