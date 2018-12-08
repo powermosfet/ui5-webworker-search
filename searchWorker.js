@@ -3,6 +3,8 @@ var data = [];
 
 onmessage = function(e) {
   let msg = e.data;
+  console.log("searchWorker msg:");
+  console.log(msg);
 
   switch (msg.topic) {
     case "setData":

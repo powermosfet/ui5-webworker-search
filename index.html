@@ -22,9 +22,9 @@
       h.addItem(v);
 
       let rg = new sap.m.RadioButtonGroup();
-      let std = new sap.m.RadioButton({ sId: "std", text: "Normal binding" });
+      let std = new sap.m.RadioButton({ id: "std", text: "Normal binding" });
       rg.addButton(std);
-      let wrk = new sap.m.RadioButton({ sId: "wrk", text: "Web worker" });
+      let wrk = new sap.m.RadioButton({ id: "wrk", text: "Web worker" });
       rg.addButton(wrk);
       h.addItem(rg);
 
@@ -66,20 +66,20 @@
      if(window.Worker) {
        console.log("creating main worker");
       worker = new Worker("searchWorker.js"); 
-      worker.postMessage([
+      worker.postMessage(
         {
           topic: "setData",
           data: mainModel.getData(),
         }
-      ])
+      )
 
       searchField.attachLiveChange(function() {
-        worker.postMessage([
+        worker.postMessage(
           {
             topic: "search",
             query: searchField.getValue(),
           }
-        ]);
+        );
       });
 
       worker.onmessage = function(e) {
@@ -97,26 +97,6 @@
        alert("Sorry, web workers are not supported");
      }
     }
-    // var counter = 0;
-    
-    // var worker = new Worker('worker.js');
-    // worker.onmessage = function(msg) {
-    //   counter--;
-    //   console.log("Main thread received message: " + msg + ", Counter is now " + counter);
-    //   updateCounter();
-    // }
-    
-    // function addMessage() {
-    //   counter++;
-    //   console.log("posting a message from the main thread. Counter is " + counter);
-    //   worker.postMessage(counter);
-    //   updateCounter();
-    // }
-    
-    // function updateCounter() {
-    //   var span = document.getElementById("counter");
-    //   span.innerHTML = counter;
-    // }
   </script>
   
   <div id="ui5-root" />
