@@ -76,13 +76,19 @@
       )
 
       searchField.attachLiveChange(function() {
-        bi.setVisible(true);
-        worker.postMessage(
-          {
-            topic: "search",
-            query: searchField.getValue(),
-          }
-        );
+        let query = searchField.getValue();
+        if(query.length === 0) {
+          bi.setVisible(false);
+          list.getModel().setData(mainModel.getData());
+        } else {
+          bi.setVisible(true);
+          worker.postMessage(
+            {
+              topic: "search",
+              query: searchField.getValue(),
+            }
+          );
+        }
       });
 
       worker.onmessage = function(e) {
