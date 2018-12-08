@@ -6,13 +6,19 @@
 </head>
 
 <body>
-  <script src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js" ></script>
+  <script src="https://openui5.hana.ondemand.com/resources/sap-ui-core.js"
+    data-sap-ui-theme='sap_belize'
+    data-sap-ui-libs='sap.m'></script>
   <script>
-    let v = new sap.m.VBox({ width: "15rem" });
-    let sf = new sap.m.SearchField();
-    v.addItem(sf);
-    let l = new sap.m.List();
-    v.addItem(l);
+    sap.ui.getCore().attachInit(function() {
+      let v = new sap.m.VBox({ width: "15rem" });
+      let sf = new sap.m.SearchField();
+      v.addItem(sf);
+      let l = new sap.m.List();
+      v.addItem(l);
+
+      v.placeAt("ui5-root")
+    });
     // var counter = 0;
     
     // var worker = new Worker('worker.js');
@@ -35,11 +41,7 @@
     // }
   </script>
   
-  <h1>WebWorker</h1>
-  <p>
-    <button onClick="addMessage()">Post message</button>
-    <p>Your worker has <span id="counter">0</span> messages in the queue</p>
-  </p>
+  <div id="ui5-root" />
 </body>
 
 </html> 
