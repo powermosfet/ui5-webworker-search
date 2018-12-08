@@ -11,13 +11,15 @@
     data-sap-ui-libs='sap.m'></script>
   <script>
     sap.ui.getCore().attachInit(function() {
-      let v = new sap.m.VBox({ width: "15rem" });
+      let v = new sap.m.VBox({ width: "25rem" });
       let sf = new sap.m.SearchField();
       v.addItem(sf);
       let l = new sap.m.List();
       v.addItem(l);
 
-      v.placeAt("ui5-root")
+      v.placeAt("ui5-root");
+
+      let mainModel = new sap.ui.model.json.JSONModel("data.json");
     });
     // var counter = 0;
     
