@@ -33,6 +33,15 @@
       l.setModel(mainModel);
       l.bindItems("/", new sap.ui.core.Item({ key: "{key}", text: "{text}" }));
     });
+
+    function setupStd(list, mainModel, searchField) {
+     list.setModel(mainModel);
+     searchField.attachLiveChange(function() {
+       list.getBinding("items").filter([
+         new sap.ui.model.Filter({ path: "text", operator: sap.ui.model.FilterOperator.Contains, value1: searchField.getValue() })
+       ]);
+     });
+    }
     // var counter = 0;
     
     // var worker = new Worker('worker.js');
