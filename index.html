@@ -10,6 +10,8 @@
     data-sap-ui-theme='sap_belize'
     data-sap-ui-libs='sap.m'></script>
   <script>
+    var worker;
+
     sap.ui.getCore().attachInit(function() {
       let h = new sap.m.HBox({  });
       let v = new sap.m.VBox({ width: "25rem" });
@@ -20,9 +22,9 @@
       h.addItem(v);
 
       let rg = new sap.m.RadioButtonGroup();
-      let std = new sap.m.RadioButton({ text: "Normal binding" });
+      let std = new sap.m.RadioButton({ sId: "std", text: "Normal binding" });
       rg.addButton(std);
-      let wrk = new sap.m.RadioButton({ text: "Web worker" });
+      let wrk = new sap.m.RadioButton({ sId: "wrk", text: "Web worker" });
       rg.addButton(wrk);
       h.addItem(rg);
 
@@ -32,15 +34,68 @@
 
       setupStd(l, mainModel, sf);
       l.bindItems("/", new sap.m.StandardListItem({ title: "{key}", description: "{text}" }));
+      rg.attachSelect(function() {
+        if(std.getSelected()) {
+          setupStd(l, mainModel, sf);
+        } else if(wrk.getSelected()) {
+          setupWrk(l, mainModel, sf);
+        }
+      });
     });
 
     function setupStd(list, mainModel, searchField) {
+     console.log("setting up UI5 filters");
      list.setModel(mainModel);
      searchField.attachLiveChange(function() {
        list.getBinding("items").filter([
-         new sap.ui.model.Filter({ path: "text", operator: sap.ui.model.FilterOperator.Contains, value1: searchField.getValue() })
+         new sap.ui.model.Filter([
+          new sap.ui.model.Filter({ path: "key", operator: sap.ui.model.FilterOperator.Contains, value1: searchField.getValue() }),
+          new sap.ui.model.Filter({ path: "text", operator: sap.ui.model.FilterOperator.Contains, value1: searchField.getValue() }),
+        ])
        ]);
      });
+    }
+
+    function setupWrk(list, mainModel, searchField) {
+      if(worker) {
+        worker.terminate();
+        worker = null;
+      }
+     list.setModel(new sap.ui.model.json.JSONModel([]));
+    
+     if(window.Worker) {
+       console.log("creating main worker");
+      worker = new Worker("searchWorker.js"); 
+      worker.postMessage([
+        {
+          topic: "setData",
+          data: mainModel.getData(),
+        }
+      ])
+
+      searchField.attachLiveChange(function() {
+        worker.postMessage([
+          {
+            topic: "search",
+            query: searchField.getValue(),
+          }
+        ]);
+      });
+
+      worker.onmessage = function(e) {
+        let msg = e.data;
+        switch(msg.topic) {
+          case "clear":
+            list.getModel().setData([]);
+            break;
+          case "newResult":
+            list.getModel().setData(list.getModel().getData().concat(msg.result));
+            break;
+        }
+      };
+     } else {
+       alert("Sorry, web workers are not supported");
+     }
     }
     // var counter = 0;
     
