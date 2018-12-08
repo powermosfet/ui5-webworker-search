@@ -29,6 +29,9 @@
       h.placeAt("ui5-root");
 
       let mainModel = new sap.ui.model.json.JSONModel("data.json");
+
+      l.setModel(mainModel);
+      l.bindItems("/", new sap.ui.core.Item({ key: "{key}", text: "{text}" }));
     });
     // var counter = 0;
     
