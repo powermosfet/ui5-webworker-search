@@ -3,17 +3,17 @@ onmessage = function(e) {
 
   switch (msg.topic) {
     case "search":
-      msg.data.forEach(element => {
+      for (let i = 0; i < msg.data.length; i++) {
         if (
-          element.key.indexOf(msg.query) > -1 ||
-          element.text.indexOf(msg.query) > -1
+          msg.data[i].key.indexOf(msg.query) > -1 ||
+          msg.data[i].text.indexOf(msg.query) > -1
         ) {
           postMessage({
             topic: "newResult",
-            result: element
+            result: msg.data[i]
           });
         }
-      });
+      }
       postMessage({ topic: "done" });
   }
 };
